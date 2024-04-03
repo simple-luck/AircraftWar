@@ -1,12 +1,11 @@
 package edu.hitsz.aircraft;
-
-import edu.hitsz.application.Main;
 import edu.hitsz.bullet.BaseBullet;
-import edu.hitsz.bullet.HeroBullet;
 import java.util.LinkedList;
 import java.util.List;
+import edu.hitsz.application.Main;
+import edu.hitsz.bullet.HeroBullet;
 
-public class EliteEnemy extends AbstractAircraft{
+public class EliteEnemy extends AbstractAircraft {
     /**攻击方式 */
 
     /**
@@ -37,8 +36,7 @@ public class EliteEnemy extends AbstractAircraft{
     }
 
     @Override
-    public List<BaseBullet> shoot()
-    {
+    public List<BaseBullet> shoot() {
         List<BaseBullet> res = new LinkedList<>();
         int x = this.getLocationX();
         int y = this.getLocationY() + direction*2;
@@ -54,5 +52,3 @@ public class EliteEnemy extends AbstractAircraft{
         return res;
     }
 }
-
-
