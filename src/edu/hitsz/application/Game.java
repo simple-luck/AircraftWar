@@ -175,7 +175,9 @@ public class Game extends JPanel {
     private void shootAction() {
         // TODO 敌机射击
         //循环修改代码，因为敌机不止一台
-
+        for(AbstractAircraft enemy:enemyAircrafts){
+            enemyBullets.addAll(enemy.shoot());
+        }
 
         // 英雄射击
         heroBullets.addAll(heroAircraft.shoot());
