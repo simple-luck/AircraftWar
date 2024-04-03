@@ -103,7 +103,7 @@ public class Game extends JPanel {
 
                 if (enemyAircrafts.size() < enemyMaxNumber) {
                     double r=Math.random();
-                    if(r>=0.8){
+                    if(r<=0.8){
                         enemyAircrafts.add(new MobEnemy(
                                 (int) (Math.random() * (Main.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())),
                                 (int) (Math.random() * Main.WINDOW_HEIGHT * 0.05),
