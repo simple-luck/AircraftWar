@@ -207,7 +207,15 @@ public class Game extends JPanel {
      */
     private void crashCheckAction() {
         // TODO 敌机子弹攻击英雄
-
+        for (BaseBullet bullet : enemyBullets) {
+            if (bullet.notValid()) {
+                continue;
+            }
+            if(heroAircraft.crash(bullet)){
+                heroAircraft.decreaseHp(bullet.getPower());
+                bullet.vanish();
+        }
+    }
         // 英雄子弹攻击敌机
         for (BaseBullet bullet : heroBullets) {
             if (bullet.notValid()) {
