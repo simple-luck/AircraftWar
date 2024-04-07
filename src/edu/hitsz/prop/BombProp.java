@@ -11,6 +11,7 @@ public class BombProp extends AbstractPop{
     @Override
     public void BeUsed(HeroAircraft hero) {
         System.out.println("BombSupply active");
+        vanish();
     }
 
     @Override
