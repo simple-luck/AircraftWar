@@ -29,11 +29,11 @@ public abstract class AbstractPop extends AbstractFlyingObject {
 
     public abstract void BeUsed(HeroAircraft hero);
 
-    public void forward(){
-        locationX += speedX;
-        locationY += speedY;
+    @Override
+    public void forward() {
+        super.forward();
         if (locationY >= Main.WINDOW_HEIGHT ) {
-            this.speedY=0;
+            vanish();
         }
     }
 }

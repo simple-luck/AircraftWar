@@ -1,6 +1,8 @@
 package edu.hitsz.prop;
 
+import edu.hitsz.application.Main;
 import edu.hitsz.aircraft.HeroAircraft;
+
 
 public class BloodProp extends AbstractPop{
     protected int blood=30;

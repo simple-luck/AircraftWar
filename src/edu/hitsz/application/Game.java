@@ -245,12 +245,12 @@ public class Game extends JPanel {
                         {
                             double i= Math.random();
                             if(i<=0.33){
-                                Props.add(new BloodProp(enemyAircraft.getLocationX(),enemyAircraft.getLocationY(),0,10));
+                                Props.add(new BloodProp(enemyAircraft.getLocationX(),enemyAircraft.getLocationY(),0,3));
                             } else if (i<0.66) {
-                                Props.add(new BombProp(enemyAircraft.getLocationX(),enemyAircraft.getLocationY(),0,10));
+                                Props.add(new BombProp(enemyAircraft.getLocationX(),enemyAircraft.getLocationY(),0,3));
                             }
                             else {
-                                 Props.add(new BulletProp(enemyAircraft.getLocationX(),enemyAircraft.getLocationY(),0,10));
+                                 Props.add(new BulletProp(enemyAircraft.getLocationX(),enemyAircraft.getLocationY(),0,3));
                             }
                         }
                         score += 10;
@@ -271,6 +271,9 @@ public class Game extends JPanel {
             }
             if (prop.crash(heroAircraft)){
                 prop.BeUsed(heroAircraft);
+            }
+            else{
+                prop.forward();
             }
         }
 
