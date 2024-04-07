@@ -25,6 +25,7 @@ abstract class AbstractFlyingObject
     + notValid():boolean
     + vanish():void
 }
+
 abstract class AbstractAircraft
 {
 	# maxHp:int
@@ -54,6 +55,17 @@ class MobEnemy {
 }
 AbstractAircraft <|-- MobEnemy
 
+
+class EliteEnemy{
+    - shootNum:int
+    - power:int
+    - direction:int
+    + EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
+    + forward():void
+    + shoot():List<BaseBullet>
+}
+AbstractAircraft <|-- EliteEnemy
+
 abstract class BaseBullet
 {
     - power:int
@@ -71,11 +83,40 @@ class EnemyBullet {
     + EnemyBullet(int locationX, int locationY,
      int speedX, int speedY, int power)
 }
-
 BaseBullet <|-- HeroBullet
 BaseBullet <|-- EnemyBullet
 
+abstract class AbstractProp{
+    + AbstractProp(int locationX, int locationY, int speedX, int speedY)
+    + crash(AbstractFlyingObject flyingObject):boolean
+    + {abstract} BeUsed(HeroAircraft hero):void
+    + forward():void
+}
+
+class BloodProp{
+    -blood:int
+    + BloodProp(int locationX, int locationY, int speedX, int speedY)
+    + BeUsed(HeroAircraft hero):void
+    + forward():void
+}
+
+class BombProp{
+    + BombProp(int locationX, int locationY, int speedX, int speedY)
+    + BeUsed(HeroAircraft hero):void
+    + forward():void
+}
+
+class BulletProp{
+    + BulletProp(int locationX, int locationY, int speedX, int speedY)
+    + BeUsed(HeroAircraft hero):void
+    + forward():void
+}
+AbstractProp <|-- BloodProp
+AbstractProp <|-- BombProp
+AbstractProp <|-- BulletProp
+
+
 AbstractFlyingObject <|-- AbstractAircraft
 AbstractFlyingObject <|-- BaseBullet
-
+AbstractFlyingObject <|-- AbstractProp
 @enduml

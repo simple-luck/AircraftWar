@@ -2,17 +2,16 @@ package edu.hitsz.prop;
 import edu.hitsz.aircraft.HeroAircraft;
 import edu.hitsz.application.Main;
 import edu.hitsz.basic.AbstractFlyingObject;
-import edu.hitsz.aircraft.AbstractAircraft;
 
 
-public abstract class AbstractPop extends AbstractFlyingObject {
-    public AbstractPop(int locationX, int locationY, int speedX, int speedY) {
+public abstract class AbstractProp extends AbstractFlyingObject {
+    public AbstractProp(int locationX, int locationY, int speedX, int speedY) {
         super(locationX, locationY, speedX, speedY);
     }
-
+    @Override
     public boolean crash(AbstractFlyingObject flyingObject) {
         // 缩放因子，用于控制 y轴方向区域范围
-        int factor = this instanceof AbstractPop ? 2 : 1; //我方
+        int factor = this instanceof AbstractProp ? 2 : 1; //我方
         int fFactor = flyingObject instanceof HeroAircraft? 2 : 1;//对方
 
         //对方坐标、宽度、高度

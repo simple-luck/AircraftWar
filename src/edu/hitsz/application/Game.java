@@ -3,7 +3,7 @@ package edu.hitsz.application;
 import edu.hitsz.aircraft.*;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.basic.AbstractFlyingObject;
-import edu.hitsz.prop.AbstractPop;
+import edu.hitsz.prop.AbstractProp;
 import edu.hitsz.prop.BloodProp;
 import edu.hitsz.prop.BombProp;
 import edu.hitsz.prop.BulletProp;
@@ -39,7 +39,7 @@ public class Game extends JPanel {
     private final List<AbstractAircraft> enemyAircrafts;
     private final List<BaseBullet> heroBullets;
     private final List<BaseBullet> enemyBullets;
-    private final List<AbstractPop> Props;
+    private final List<AbstractProp> Props;
 
 
     /**
@@ -265,7 +265,7 @@ public class Game extends JPanel {
         }
 
         // Todo: 我方获得道具，道具生效
-        for (AbstractPop prop:Props){
+        for (AbstractProp prop:Props){
             if(prop.notValid()){
                 continue;
             }
