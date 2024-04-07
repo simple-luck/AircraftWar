@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import edu.hitsz.application.Main;
 import edu.hitsz.bullet.EnemyBullet;
-import edu.hitsz.bullet.HeroBullet;
+
 
 public class EliteEnemy extends AbstractAircraft {
     /**攻击方式 */

@@ -66,4 +66,11 @@ public class HeroAircraft extends AbstractAircraft {
         return res;
     }
 
+    public void add_blood(int blood){
+        hp+=blood;
+        if(hp>maxHp){
+            hp=maxHp;
+        }
+    }
+
 }

@@ -3,6 +3,9 @@ package edu.hitsz.application;
 import edu.hitsz.aircraft.*;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.basic.AbstractFlyingObject;
+import edu.hitsz.prop.BloodProp;
+import edu.hitsz.prop.BombProp;
+import edu.hitsz.prop.BulletProp;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
 import javax.swing.*;
@@ -214,8 +217,8 @@ public class Game extends JPanel {
             if(heroAircraft.crash(bullet)){
                 heroAircraft.decreaseHp(bullet.getPower());
                 bullet.vanish();
+            }
         }
-    }
         // 英雄子弹攻击敌机
         for (BaseBullet bullet : heroBullets) {
             if (bullet.notValid()) {
@@ -234,6 +237,18 @@ public class Game extends JPanel {
                     bullet.vanish();
                     if (enemyAircraft.notValid()) {
                         // TODO 获得分数，产生道具补给
+                        if(enemyAircraft instanceof EliteEnemy)
+                        {
+                            double i= Math.random();
+                            if(i<=0.33){
+                                new BloodProp(enemyAircraft.getLocationX(),enemyAircraft.getLocationY(),0,10);
+                            } else if (i<0.66) {
+                                new BombProp(enemyAircraft.getLocationX(),enemyAircraft.getLocationY(),0,10);
+                            }
+                            else {
+                                new BulletProp(enemyAircraft.getLocationX(),enemyAircraft.getLocationY(),0,10);
+                            }
+                        }
                         score += 10;
                     }
                 }
@@ -246,6 +261,7 @@ public class Game extends JPanel {
         }
 
         // Todo: 我方获得道具，道具生效
+
 
     }
 
