@@ -1,0 +1,50 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+interface PropFactory{
+    + createProp():AbstractProp
+}
+
+class BloodProp_factory{
+    + createProp():AbstractProp
+}
+class BombProp_factory{
+    + createProp():AbstractProp
+}
+class BulletProp_factory{
+    + createProp():AbstractProp
+}
+
+abstract class AbstractProp{
+    + AbstractProp(int locationX, int locationY, int speedX, int speedY)
+    + crash(AbstractFlyingObject flyingObject):boolean
+    + {abstract} BeUsed(HeroAircraft hero):void
+    + forward():void
+}
+
+class BloodProp{
+    -blood:int
+    + BloodProp(int locationX, int locationY, int speedX, int speedY)
+    + BeUsed(HeroAircraft hero):void
+    + forward():void
+}
+
+class BombProp{
+    + BombProp(int locationX, int locationY, int speedX, int speedY)
+    + BeUsed(HeroAircraft hero):void
+    + forward():void
+}
+
+class BulletProp{
+    + BulletProp(int locationX, int locationY, int speedX, int speedY)
+    + BeUsed(HeroAircraft hero):void
+    + forward():void
+}
+AbstractProp <|-- BloodProp
+AbstractProp <|-- BombProp
+AbstractProp <|-- BulletProp
+PropFactory..>AbstractProp
+BloodProp_factory..|>PropFactory
+BombProp_factory..|>PropFactory
+BulletProp_factory..|>PropFactory
+@enduml

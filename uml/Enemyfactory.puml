@@ -1,0 +1,52 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+'敌机的工厂模式
+
+interface EnemyFactory{
+     + createEnemy():AbstractAircraft
+}
+
+
+class MobEnemy_factory{
+    + createEnemy():AbstractAircraft
+}
+
+
+class EliteEnemy_factory{
+    + createEnemy():AbstractAircraft
+}
+
+EliteEnemy_factory ..|> EnemyFactory
+MobEnemy_factory..|> EnemyFactory
+
+EnemyFactory..>AbstractAircraft
+
+abstract class AbstractAircraft
+{
+	# maxHp:int
+    # hp:int
+    + AbstractAircraft(int locationX, int locationY, int speedX, int speedY, int hp)
+    + decreaseHp(int decrease):void
+    + getHp():int
+    + {abstract} shoot():List<BaseBullet>
+ }
+
+
+class MobEnemy {
+    + MobEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
+    + forward():void
+    + shoot():List<BaseBullet>
+}
+AbstractAircraft <|-- MobEnemy
+
+class EliteEnemy{
+    - shootNum:int
+    - power:int
+    - direction:int
+    + EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
+    + forward():void
+    + shoot():List<BaseBullet>
+}
+AbstractAircraft <|-- EliteEnemy
+
+@enduml
