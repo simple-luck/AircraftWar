@@ -1,9 +1,12 @@
-package edu.hitsz.aircraft;
+package edu.hitsz.factory;
 
+import edu.hitsz.aircraft.AbstractAircraft;
+import edu.hitsz.aircraft.MobEnemy;
 import edu.hitsz.application.ImageManager;
 import edu.hitsz.application.Main;
+import edu.hitsz.factory.EnemyFactory;
 
-public class MobEnemy_factory implements EnemyFactory{
+public class MobEnemy_factory implements EnemyFactory {
     @Override
     public AbstractAircraft createEnemy() {
         return new MobEnemy(
@@ -11,7 +14,7 @@ public class MobEnemy_factory implements EnemyFactory{
                 (int) (Math.random() * Main.WINDOW_HEIGHT * 0.05),
                 0,
                 10,
-                60
+                30
         );
     }
 }

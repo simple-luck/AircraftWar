@@ -1,9 +1,11 @@
-package edu.hitsz.aircraft;
+package edu.hitsz.factory;
 
+import edu.hitsz.aircraft.AbstractAircraft;
+import edu.hitsz.aircraft.EliteEnemy;
 import edu.hitsz.application.ImageManager;
 import edu.hitsz.application.Main;
 
-public class EliteEnemy_factory implements EnemyFactory{
+public class EliteEnemy_factory implements EnemyFactory {
 
     @Override
     public AbstractAircraft createEnemy() {

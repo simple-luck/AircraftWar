@@ -3,6 +3,7 @@ package edu.hitsz.application;
 import edu.hitsz.aircraft.*;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.basic.AbstractFlyingObject;
+import edu.hitsz.factory.*;
 import edu.hitsz.prop.*;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
@@ -12,7 +13,7 @@ import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.*;
-
+import java.util.Random;
 /**
  * 游戏主面板，游戏启动
  *
@@ -48,6 +49,7 @@ public class Game extends JPanel {
      * 当前得分
      */
     private int score = 0;
+    private int score_div=0;
     /**
      * 当前时刻
      */
@@ -103,13 +105,24 @@ public class Game extends JPanel {
 
                 if (enemyAircrafts.size() < enemyMaxNumber) {
                     double r=Math.random();
-                    if(r<=0.7){
+                    if(r<=0.8){
                         enemyAircrafts.add(new MobEnemy_factory().createEnemy());}
-                    else if(r<=0.8){
+                    else if(r<=0.9){
                         enemyAircrafts.add(new EliteEnemy_factory().createEnemy());}
-                    else{
+                    else {
                         enemyAircrafts.add(new ElitePlusEnemy_factory().createEnemy());}
                 }
+                boolean flag=false;
+               for(AbstractAircraft enemy:enemyAircrafts)
+               {
+                   if(enemy instanceof BossEnemy){
+                       flag=true;
+                   }
+               }
+               if(flag==false&score_div>=100){
+                   enemyAircrafts.add(new BossEnemy_factory().createEnemy());
+                   score_div=0;
+               }
                 // 飞机射出子弹
                 shootAction();
             }
@@ -224,7 +237,8 @@ public class Game extends JPanel {
                     bullet.vanish();
                     if (enemyAircraft.notValid()) {
                         // TODO 获得分数，产生道具补给
-                        if(enemyAircraft instanceof EliteEnemy)
+
+                        if(enemyAircraft instanceof EliteEnemy || enemyAircraft instanceof ElitePlusEnemy)
                         {
                             double i= Math.random();
                             if(i<=0.3){
@@ -239,7 +253,22 @@ public class Game extends JPanel {
                                 continue;
                             }
                         }
+                        if(enemyAircraft instanceof BossEnemy){
+                            double j= Math.random();
+                            Random random = new Random();
+                            for(int i=0;i<random.nextInt(4);i++){
+                                if(j<=0.4){
+                                    Props.add(new BloodProp_Factory().createProp(enemyAircraft.getLocationX()+i*50,enemyAircraft.getLocationY()+i*50,0,3));
+                                } else if (j<0.7) {
+                                    Props.add(new BombProp_Factory().createProp(enemyAircraft.getLocationX()+i*50,enemyAircraft.getLocationY()+i*50,0,3));
+                                }
+                                else {
+                                    Props.add(new BulletProp_Factory().createProp(enemyAircraft.getLocationX()+i*50,enemyAircraft.getLocationY()+i*50,0,3));
+                                }
+                            }
+                        }
                         score += 10;
+                        score_div+=10;
                     }
                 }
                 // 英雄机 与 敌机 相撞，均损毁

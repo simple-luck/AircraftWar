@@ -34,7 +34,7 @@ public class ElitePlusEnemy extends AbstractAircraft{
             // 子弹发射位置相对飞机位置向前偏移
             // 多个子弹横向分散
             if(i==0){
-                bullet = new EnemyBullet(x + (i*2 - shootNum + 1)*10, y, speedX-1, speedY,power);
+                bullet = new EnemyBullet(x + (i*2 - shootNum + 1)*10, y, speedX-2, speedY,power);
                 res.add(bullet);
             }
             if(i==1){
@@ -42,7 +42,7 @@ public class ElitePlusEnemy extends AbstractAircraft{
                 res.add(bullet);
             }
             if(i==2){
-                bullet = new EnemyBullet(x + (i*2 - shootNum + 1)*10, y, speedX+1, speedY,power);
+                bullet = new EnemyBullet(x + (i*2 - shootNum + 1)*10, y, speedX+2, speedY,power);
                 res.add(bullet);
             }
 
