@@ -103,10 +103,12 @@ public class Game extends JPanel {
 
                 if (enemyAircrafts.size() < enemyMaxNumber) {
                     double r=Math.random();
-                    if(r<=0.8){
+                    if(r<=0.7){
                         enemyAircrafts.add(new MobEnemy_factory().createEnemy());}
-                    else {
+                    else if(r<=0.8){
                         enemyAircrafts.add(new EliteEnemy_factory().createEnemy());}
+                    else{
+                        enemyAircrafts.add(new ElitePlusEnemy_factory().createEnemy());}
                 }
                 // 飞机射出子弹
                 shootAction();
