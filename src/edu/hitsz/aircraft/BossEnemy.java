@@ -28,25 +28,21 @@ public class BossEnemy extends AbstractAircraft {
     @Override
     public List<BaseBullet> shoot() {
 
-                List<BaseBullet> res = new LinkedList<>();
-                int x = this.getLocationX();
-                int y = this.getLocationY();
-                int BULLET_SPEED = 5;
-                int speedX = 0;
-                int speedY = this.getSpeedY() - direction * 5;
-                BaseBullet bullet;
-                double angleIncrement = 2 * Math.PI / shootNum;
-                for (int i = 0; i < shootNum; i++) {
-                    // 子弹发射位置相对飞机位置向前偏移
-                    double angle = i * angleIncrement;
-                    int Xbullet = (int) (x + 30 * Math.cos(angle));
-                    int Ybullet = (int) (y + 30 * Math.sin(angle));
-                    speedX = (int) (BULLET_SPEED * Math.cos(angle));
-                    speedY = (int) (BULLET_SPEED * Math.sin(angle));
-                    bullet = new EnemyBullet(Xbullet, Ybullet, speedX, speedY, power);
-                    res.add(bullet);
-                }
-                return res;
+        List<BaseBullet> res = new LinkedList<>();
+        int x = this.getLocationX();
+        int y = this.getLocationY();
+        int BULLET_SPEED = 14;
+        BaseBullet bullet;
+        double angleIncrement = 2 * Math.PI / shootNum;
+        for (int i = 0; i < shootNum; i++) {
+            // 子弹发射位置相对飞机位置向前偏移
+            double angle = i * angleIncrement;
+            speedX = (int) (BULLET_SPEED * Math.cos(angle));
+            speedY = (int) (BULLET_SPEED * Math.sin(angle));
+            bullet = new EnemyBullet(x, y, speedX, speedY, power);
+            res.add(bullet);
+        }
+        return res;
 
     }
 }

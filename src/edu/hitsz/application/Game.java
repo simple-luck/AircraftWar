@@ -45,6 +45,7 @@ public class Game extends JPanel {
      */
     private int enemyMaxNumber = 5;
 
+
     /**
      * 当前得分
      */
@@ -113,13 +114,13 @@ public class Game extends JPanel {
                         enemyAircrafts.add(new ElitePlusEnemy_factory().createEnemy());}
                 }
                 boolean flag=false;
-               for(AbstractAircraft enemy:enemyAircrafts)
-               {
-                   if(enemy instanceof BossEnemy){
-                       flag=true;
-                   }
-               }
-               if(flag==false&score_div>=100){
+                for(AbstractAircraft enemy:enemyAircrafts)
+                {
+                    if(enemy instanceof BossEnemy){
+                        flag=true;
+                    }
+                }
+                if(flag==false&score_div>=100){
                    enemyAircrafts.add(new BossEnemy_factory().createEnemy());
                    score_div=0;
                }

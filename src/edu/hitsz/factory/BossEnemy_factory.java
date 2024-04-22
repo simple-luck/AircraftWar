@@ -13,7 +13,7 @@ public class BossEnemy_factory implements EnemyFactory {
                 (int) (Math.random() * Main.WINDOW_HEIGHT * 0.05),
                 1,
                 0,
-                120
+                360
         );
     }
 }
