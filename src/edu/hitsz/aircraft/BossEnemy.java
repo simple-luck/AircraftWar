@@ -1,5 +1,6 @@
 package edu.hitsz.aircraft;
 
+import edu.hitsz.application.Main;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.bullet.EnemyBullet;
 
@@ -16,9 +17,6 @@ public class BossEnemy extends AbstractAircraft {
      */
     private int power = 20;
 
-    /**
-     * 子弹射击方向 (向上发射：1，向下发射：-1)
-     */
     private int direction = -1;
 
     public BossEnemy(int locationX, int locationY, int speedX, int speedY, int hp) {
@@ -37,9 +35,9 @@ public class BossEnemy extends AbstractAircraft {
         for (int i = 0; i < shootNum; i++) {
             // 子弹发射位置相对飞机位置向前偏移
             double angle = i * angleIncrement;
-            speedX = (int) (BULLET_SPEED * Math.cos(angle));
-            speedY = (int) (BULLET_SPEED * Math.sin(angle));
-            bullet = new EnemyBullet(x, y, speedX, speedY, power);
+            int bullet_speedX = (int) (BULLET_SPEED * Math.cos(angle));
+            int bullet_speedY = (int) (BULLET_SPEED * Math.sin(angle));
+            bullet = new EnemyBullet(x,y, bullet_speedX, bullet_speedY, power);
             res.add(bullet);
         }
         return res;

@@ -63,6 +63,7 @@ public class Game extends JPanel {
     private int cycleDuration = 600;
     private int cycleTime = 0;
 
+
     /**
      * 游戏结束标志
      */
@@ -121,9 +122,9 @@ public class Game extends JPanel {
                     }
                 }
                 if(flag==false&score_div>=100){
-                   enemyAircrafts.add(new BossEnemy_factory().createEnemy());
-                   score_div=0;
-               }
+                    enemyAircrafts.add(new BossEnemy_factory().createEnemy());
+                    score_div=0;
+                }
                 // 飞机射出子弹
                 shootAction();
             }
