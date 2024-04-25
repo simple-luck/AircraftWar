@@ -1,0 +1,46 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+interface Strategy{
+    +{abstract} execute(AbstractAircraft aircraft):List<BaseBullet>
+}
+
+class null_shoot{
+    + execute(AbstractAircraft aircraft):List<BaseBullet>
+}
+
+class direct_shoot{
+    -shootNum:int
+    -power:int
+    + execute(AbstractAircraft aircraft):List<BaseBullet>
+}
+class scatter_shoot{
+    - shootNum:int
+    - power:int
+    + execute(AbstractAircraft aircraft):List<BaseBullet>
+}
+class circle_shoot{
+    -shootNum:int
+    -power:int
+    +execute(AbstractAircraft aircraft):List<BaseBullet>
+}
+circle_shoot..|>Strategy
+direct_shoot..|>Strategy
+null_shoot..|>Strategy
+scatter_shoot..|>Strategy
+
+
+class AbstractAircraft{
+    # maxHp:int
+    # hp:int
+    + direction:int
+    + strategy:Strategy
+    + AbstractAircraft(int locationX, int locationY, int speedX, int speedY, int hp)
+    + setStrategy(Strategy strategy):void
+    + shoot():List<BaseBullet>
+    + decreaseHp(int decrease):void
+    + getHp():int
+}
+
+AbstractAircraft o..>Strategy
+@enduml

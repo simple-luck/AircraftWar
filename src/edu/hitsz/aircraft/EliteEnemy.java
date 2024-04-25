@@ -9,26 +9,12 @@ import strategy.direct_shoot;
 
 
 public class EliteEnemy extends AbstractAircraft {
-    /**攻击方式 */
 
-    /**
-     * 子弹一次发射数量
-     */
-    private int shootNum = 1;
-
-    /**
-     * 子弹伤害
-     */
-    private int power = 20;
-
-    /**
-     * 子弹射击方向 (向上发射：1，向下发射：-1)
-     */
-    private int direction = -1;
 
     public EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp) {
         super(locationX, locationY, speedX, speedY, hp);
         this.setStrategy(new direct_shoot());
+        this.direction=1;
     }
 
     @Override
@@ -40,8 +26,4 @@ public class EliteEnemy extends AbstractAircraft {
         }
     }
 
-    @Override
-    public List<BaseBullet> shoot() {
-        return super.shoot();
-    }
 }

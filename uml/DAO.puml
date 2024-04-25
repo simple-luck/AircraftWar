@@ -1,0 +1,10 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+interface DAO{
+    + getAll():List<Message>
+    + getByname():void
+    + add(List<Message> mes):void
+    + delete(String name):void
+}
+@enduml

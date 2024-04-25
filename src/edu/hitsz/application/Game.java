@@ -243,29 +243,32 @@ public class Game extends JPanel {
                         if(enemyAircraft instanceof EliteEnemy || enemyAircraft instanceof ElitePlusEnemy)
                         {
                             double i= Math.random();
-                            if(i<=0.3){
+                            if(i<=0.25){
                                 Props.add(new BloodProp_Factory().createProp(enemyAircraft.getLocationX(),enemyAircraft.getLocationY(),0,3));
-                            } else if (i<0.6) {
+                            } else if (i<0.5) {
                                 Props.add(new BombProp_Factory().createProp(enemyAircraft.getLocationX(),enemyAircraft.getLocationY(),0,3));
                             }
-                            else if(i<0.9){
+                            else if(i<0.75){
                                  Props.add(new BulletProp_Factory().createProp(enemyAircraft.getLocationX(),enemyAircraft.getLocationY(),0,3));
                             }
                             else{
-                                continue;
+                                Props.add(new BulletPlusProp_Factory().createProp(enemyAircraft.getLocationX(),enemyAircraft.getLocationY(),0,3));
                             }
                         }
                         if(enemyAircraft instanceof BossEnemy){
                             double j= Math.random();
                             Random random = new Random();
                             for(int i=0;i<random.nextInt(4);i++){
-                                if(j<=0.4){
+                                if(j<=0.25){
                                     Props.add(new BloodProp_Factory().createProp(enemyAircraft.getLocationX()+i*50,enemyAircraft.getLocationY()+i*50,0,3));
-                                } else if (j<0.7) {
+                                } else if (j<0.5) {
                                     Props.add(new BombProp_Factory().createProp(enemyAircraft.getLocationX()+i*50,enemyAircraft.getLocationY()+i*50,0,3));
                                 }
-                                else {
+                                else if(j<0.75){
                                     Props.add(new BulletProp_Factory().createProp(enemyAircraft.getLocationX()+i*50,enemyAircraft.getLocationY()+i*50,0,3));
+                                }
+                                else{
+                                    Props.add(new BulletPlusProp_Factory().createProp(enemyAircraft.getLocationX()+i*50,enemyAircraft.getLocationY()+i*50,0,3));
                                 }
                             }
                         }

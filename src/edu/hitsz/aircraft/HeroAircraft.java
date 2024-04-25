@@ -17,22 +17,7 @@ import java.util.List;
  */
 public class HeroAircraft extends AbstractAircraft {
 
-    /**攻击方式 */
 
-    /**
-     * 子弹一次发射数量
-     */
-    private int shootNum = 1;
-
-    /**
-     * 子弹伤害
-     */
-    private int power = 30;
-
-    /**
-     * 子弹射击方向 (向上发射：1，向下发射：-1)
-     */
-    private int direction = -1;
 
     public Strategy strategy=new direct_shoot();
 
@@ -47,6 +32,7 @@ public class HeroAircraft extends AbstractAircraft {
     private HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp) {
         super(locationX, locationY, speedX, speedY, hp);
         this.setStrategy(new direct_shoot());
+        this.direction=-1;
     }
     private static HeroAircraft hero;
 
