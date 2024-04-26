@@ -1,10 +1,37 @@
 @startuml
 'https://plantuml.com/sequence-diagram
 
+class PlayerData{
+    - userName:String
+    - score:int
+    - date:Date
+    - {static}serialVersionUID:final long
+    + getUsername():String
+    + setUsername(String name)):void
+    + getScore():int
+    + setScore(int score):void
+    + getDate():Date
+    + setDate(Date date):void
+    + toString():String
+    + compareTo(PlayerData other):int
+}
 interface DAO{
-    + getAll():List<Message>
+    + {abstract}getAll():List<PlayerData>
+    + {abstract}getByname():void
+    + {abstract}add(List<PlayerData> data):void
+    + {abstract}delete(String name):void
+}
+
+class Daoiml{
+    - filePath:String
+    + getPath:String
+    + setPath(String path):void
+    + getAll():List<PlayerData>
     + getByname():void
-    + add(List<Message> mes):void
+    + add(List<PlayerData> data):void
     + delete(String name):void
 }
+
+Daoiml-->PlayerData
+Daoiml..|>DAO
 @enduml
