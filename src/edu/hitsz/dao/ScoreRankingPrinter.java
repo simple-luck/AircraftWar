@@ -23,7 +23,7 @@ public class ScoreRankingPrinter{
         System.out.println("*****************************");
         for (int i = 0; i < scoreRanking.size(); i++) {
             PlayerData playerData = scoreRanking.get(i);
-            System.out.println((i + 1) + ". " + playerData.getUsername() + ": " + playerData.getScore());
+            System.out.println((i + 1) + "." + playerData.getUsername() + ":" + playerData.getScore()+"  "+playerData.getDate());
         }
     }
 

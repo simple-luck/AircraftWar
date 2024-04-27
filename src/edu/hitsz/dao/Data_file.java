@@ -5,95 +5,72 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Data_file {
-    public static void writePlayerDataToFile(String filePath, PlayerData playerData) {
-        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(filePath))) {
-            outputStream.writeObject(playerData);
-            //System.out.println("PlayerData 对象已成功写入到文件: " + filePath);
-        } catch (IOException e) {
-            System.err.println("写入文件时出错: " + e.getMessage());
+    /**
+     * 初始化一次即可,为了能够提前存在4个字节的序列化头部信息
+     *
+     * @param file
+     */
+    public static void spannedFile(File file) {
+        if (file.exists()) {
+            return;
         }
-    }
-    public static void appendPlayerDataToFile(String filePath, PlayerData playerData) {
-        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(filePath, true))) {
-            outputStream.writeObject(playerData);
-            System.out.println("PlayerData 对象已成功追加到文件: " + filePath);
+        try (FileOutputStream fos = new FileOutputStream(file);
+             ObjectOutputStream oos = new ObjectOutputStream(fos)) {
         } catch (IOException e) {
-            System.err.println("写入文件时出错: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
-    public static void removePlayerDataByUsername(String filePath, String usernameToRemove) {
-        List<PlayerData> playerDataList = new ArrayList<>();
-        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(filePath))) {
-            while (true) {
+    public static void write(File file, PlayerData playerData) {
+        try (FileOutputStream fos = new FileOutputStream(file, true);
+             ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+            fos.getChannel().truncate(fos.getChannel().position() - 4);
+            oos.writeObject(playerData);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static List<PlayerData> read(File file) {
+        List<PlayerData> list = new ArrayList<>();
+        try (FileInputStream fis = new FileInputStream(file);
+             ObjectInputStream ois = new ObjectInputStream(fis)) {
+            while (fis.available() > 0) {
                 try {
-                    PlayerData playerData = (PlayerData) inputStream.readObject();
-                    if (!playerData.getUsername().equals(usernameToRemove)) {
-                        playerDataList.add(playerData);
+                    Object o = ois.readObject();
+                    if (o instanceof PlayerData) {
+                        list.add((PlayerData) o);
                     }
-                } catch (ClassNotFoundException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                 }
             }
-        } catch (EOFException e) {
-            // 到达文件末尾
-            System.out.println("已读取所有数据");
         } catch (IOException e) {
-            System.err.println("读取文件时出错: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public static void removeObjectByName(File file, String nameToRemove) {
+        // 读取所有对象
+        List<PlayerData> list = read(file);
+
+        // 从列表中删除名字匹配的对象
+        list.removeIf(playerData -> playerData.getUsername().equals(nameToRemove));
+
+        // 清空原文件
+        if (!file.delete()) {
+            System.err.println("无法删除原文件");
+            return;
         }
 
-        // 将剩余的数据写入到文件中
-        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(filePath))) {
-            for (PlayerData playerData : playerDataList) {
-                outputStream.writeObject(playerData);
-            }
-            System.out.println("已删除玩家名为 " + usernameToRemove + " 的记录");
-        } catch (IOException e) {
-            System.err.println("写入文件时出错: " + e.getMessage());
+        // 重新创建文件
+        spannedFile(file);
+
+        // 将剩余的对象写回文件
+        for (PlayerData playerData : list) {
+            write(file, playerData);
         }
     }
 
-
-    // 根据用户名从文件中获取对应的记录
-    public static PlayerData getPlayerDataByUsername(String filePath, String usernameToRetrieve) {
-        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(filePath))) {
-            while (true) {
-                try {
-                    PlayerData playerData = (PlayerData) inputStream.readObject();
-                    if (playerData.getUsername().equals(usernameToRetrieve)) {
-                        return playerData;
-                    }
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }
-        } catch (EOFException e) {
-            // 到达文件末尾
-            System.out.println("已读取所有数据");
-        } catch (IOException e) {
-            System.err.println("读取文件时出错: " + e.getMessage());
-        }
-        return null;
-    }
-
-    // 从文件中获取所有记录
-    public static List<PlayerData> getAllPlayerData(String filePath) {
-        List<PlayerData> playerDataList = new ArrayList<>();
-        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(filePath))) {
-            while (true) {
-                try {
-                    PlayerData playerData = (PlayerData) inputStream.readObject();
-                    playerDataList.add(playerData);
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }
-        } catch (EOFException e) {
-            // 到达文件末尾
-            System.out.println("已读取所有数据");
-        } catch (IOException e) {
-            System.err.println("读取文件时出错: " + e.getMessage());
-        }
-        return playerDataList;
-    }
 }

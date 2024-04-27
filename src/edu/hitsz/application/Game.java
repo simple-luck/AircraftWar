@@ -3,10 +3,7 @@ package edu.hitsz.application;
 import edu.hitsz.aircraft.*;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.basic.AbstractFlyingObject;
-import edu.hitsz.dao.DAO;
-import edu.hitsz.dao.Daoiml;
-import edu.hitsz.dao.PlayerData;
-import edu.hitsz.dao.ScoreRankingPrinter;
+import edu.hitsz.dao.*;
 import edu.hitsz.factory.*;
 import edu.hitsz.prop.*;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
@@ -154,10 +151,11 @@ public class Game extends JPanel {
                 executorService.shutdown();
                 gameOverFlag = true;
                 Daoiml dao=new Daoiml();
+                dao.setFile("game.txt");
                 String username="hzh";
                 //创建数据对象实例
                 PlayerData playerdata=new PlayerData(username,score,new Date());
-                dao.setFilePath("data.ser");
+                //System.out.println(playerdata);
                 dao.add(playerdata);
                 System.out.println("Game Over!");
 

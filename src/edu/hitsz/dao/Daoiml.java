@@ -4,47 +4,37 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Daoiml implements DAO{
-    private String filePath;
-    //String filePath = "player_data.ser";
+public class Daoiml implements DAO {
 
-    public String getFilePath() {
-        return filePath;
+    private  File file ;
+
+    public File getFile() {
+        return file;
     }
 
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
+    public void setFile(String filePath) {
+        this.file = new File(filePath);
     }
 
     @Override
-    public  List<PlayerData> getAll() {
-        List<PlayerData> allPlayerData = Data_file.getAllPlayerData(filePath);
-        if (!allPlayerData.isEmpty()) {
-            System.out.println("所有记录:");
-            for (PlayerData playerData : allPlayerData) {
-                System.out.println(playerData);
-            }
-        } else {
-            System.out.println("找不到任何记录");
-        }
-        return allPlayerData;
-    }
+    public List<PlayerData> getAll() {
+        return  Data_file.read(file);
 
+    }
 
     @Override
     public PlayerData getByname(String name) {
-        return Data_file.getPlayerDataByUsername(filePath,name);
+        return null;
     }
 
     @Override
-    public  void add(PlayerData data) {
-        Data_file.appendPlayerDataToFile(filePath,data);
+    public void add(PlayerData data) {
+        Data_file.spannedFile(file);
+        Data_file.write(file,data);
     }
 
     @Override
-    public  void delete(String name) {
-        Data_file.removePlayerDataByUsername(filePath,name);
+    public void delete(String name) {
+        Data_file.removeObjectByName(file,name);
     }
-
-
 }

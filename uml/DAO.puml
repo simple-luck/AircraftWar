@@ -23,12 +23,12 @@ interface DAO{
 }
 
 class Daoiml{
-    - filePath:String
-    + getPath:String
-    + setPath(String path):void
+    - file:File
+    + getFile:File
+    + setFile(String filePath):void
     + getAll():List<PlayerData>
     + getByname():void
-    + add(List<PlayerData> data):void
+    + add(PlayerData data):void
     + delete(String name):void
 }
 
