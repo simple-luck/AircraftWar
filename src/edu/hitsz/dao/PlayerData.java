@@ -8,9 +8,9 @@ public class PlayerData implements Serializable, Comparable<PlayerData> {
 
     private String username;
     private int score;
-    private Date date;
+    private String date;
 
-    public PlayerData(String username, int score, Date date) {
+    public PlayerData(String username, int score, String date) {
         this.username = username;
         this.score = score;
         this.date = date;
@@ -24,7 +24,7 @@ public class PlayerData implements Serializable, Comparable<PlayerData> {
         return score;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 

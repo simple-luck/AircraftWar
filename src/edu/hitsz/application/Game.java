@@ -11,6 +11,7 @@ import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.*;
@@ -153,8 +154,12 @@ public class Game extends JPanel {
                 Daoiml dao=new Daoiml();
                 dao.setFile("game.txt");
                 String username="hzh";
+                // 创建SimpleDateFormat对象，指定日期时间格式
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                // 使用format方法将Date对象转换为字符串
+                String formattedDate = formatter.format(new Date());
                 //创建数据对象实例
-                PlayerData playerdata=new PlayerData(username,score,new Date());
+                PlayerData playerdata=new PlayerData(username,score,formattedDate);
                 //System.out.println(playerdata);
                 dao.add(playerdata);
                 System.out.println("Game Over!");
