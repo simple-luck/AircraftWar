@@ -47,7 +47,7 @@ public class ImageManager {
     static {
         try {
 
-            BACKGROUND_IMAGE = ImageIO.read(new FileInputStream("src/images/bg.jpg"));
+            //BACKGROUND_IMAGE = ImageIO.read(new FileInputStream("src/images/bg.jpg"));
 
             HERO_IMAGE = ImageIO.read(new FileInputStream("src/images/hero.png"));
             MOB_ENEMY_IMAGE = ImageIO.read(new FileInputStream("src/images/mob.png"));
@@ -90,4 +90,7 @@ public class ImageManager {
         return get(obj.getClass().getName());
     }
 
+    public static void setBackgroundImage(BufferedImage backgroundImage) {
+        BACKGROUND_IMAGE = backgroundImage;
+    }
 }

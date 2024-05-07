@@ -8,9 +8,13 @@ import edu.hitsz.factory.*;
 import edu.hitsz.prop.*;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
@@ -71,13 +75,23 @@ public class Game extends JPanel {
      */
     private boolean gameOverFlag = false;
 
-    public Game() {
+    public Game(int mode) throws IOException {
         heroAircraft = HeroAircraft.GetHeroAircraft();
         enemyAircrafts = new LinkedList<>();
         heroBullets = new LinkedList<>();
         enemyBullets = new LinkedList<>();
         Props=new LinkedList<>();
-
+        BufferedImage bg;
+        if(mode==1){
+             bg= ImageIO.read(new FileInputStream("src/images/bg.jpg"));
+        }
+        else if(mode==2){
+             bg= ImageIO.read(new FileInputStream("src/images/bg2.jpg"));
+        }
+        else {
+             bg= ImageIO.read(new FileInputStream("src/images/bg3.jpg"));
+        }
+        ImageManager.setBackgroundImage(bg);
         /**
          * Scheduled 线程池，用于定时任务调度
          * 关于alibaba code guide：可命名的 ThreadFactory 一般需要第三方包
