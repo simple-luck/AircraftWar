@@ -1,5 +1,6 @@
 package edu.hitsz.application;
 
+import edu.hitsz.ScoreTable;
 import edu.hitsz.aircraft.*;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.basic.AbstractFlyingObject;
@@ -165,23 +166,19 @@ public class Game extends JPanel {
                 // 游戏结束
                 executorService.shutdown();
                 gameOverFlag = true;
-                Daoiml dao=new Daoiml();
-                dao.setFile("game.txt");
-                String username="hzh";
-                // 创建SimpleDateFormat对象，指定日期时间格式
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                // 使用format方法将Date对象转换为字符串
-                String formattedDate = formatter.format(new Date());
-                //创建数据对象实例
-                PlayerData playerdata=new PlayerData(username,score,formattedDate);
-                //System.out.println(playerdata);
-                dao.add(playerdata);
+
                 System.out.println("Game Over!");
 
-                // 生成得分排行榜
-                List<PlayerData> scoreRanking = ScoreRankingPrinter.generateScoreRanking(dao);
+                ScoreTable scoreTable=new ScoreTable();
+                scoreTable.setScore(score);
+                Main.cardPanel.add(scoreTable.getMainPanel());
+                Main.cardLayout.last(Main.cardPanel);
+
+
+
+
                 // 打印得分排行榜
-                ScoreRankingPrinter.printScoreRanking(scoreRanking);
+                //ScoreRankingPrinter.printScoreRanking(scoreRanking);
             }
 
         };
@@ -346,6 +343,7 @@ public class Game extends JPanel {
     }
 
 
+
     //***********************
     //      Paint 各部分
     //***********************
@@ -406,5 +404,7 @@ public class Game extends JPanel {
         g.drawString("LIFE:" + this.heroAircraft.getHp(), x, y);
     }
 
-
+    public boolean isGameOverFlag() {
+        return gameOverFlag;
+    }
 }

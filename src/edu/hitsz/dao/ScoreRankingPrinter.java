@@ -1,5 +1,6 @@
 package edu.hitsz.dao;
 
+import javax.swing.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -8,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class ScoreRankingPrinter{
+
 
     // 从文件中读取 PlayerData 对象，并生成得分排行榜
     public static List<PlayerData> generateScoreRanking(Daoiml dao) {
