@@ -1,6 +1,7 @@
 package edu.hitsz.prop;
 
 import edu.hitsz.aircraft.HeroAircraft;
+import strategy.direct_shoot;
 import strategy.scatter_shoot;
 
 public class BulletProp extends AbstractProp {
@@ -10,11 +11,23 @@ public class BulletProp extends AbstractProp {
     }
 
     @Override
-    public void BeUsed(HeroAircraft hero) {
-        System.out.println("FireSupply active!");
-        hero.setStrategy(new scatter_shoot());
+    public void BeUsed() throws InterruptedException {
+        Runnable r = () -> {
+            HeroAircraft.GetHeroAircraft().setStrategy(new scatter_shoot());
+            try {
+                Thread.sleep(4000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            HeroAircraft.GetHeroAircraft().setStrategy(new direct_shoot());
+        };
+        // 启动线程
+        new Thread(r).start();
+        System.out.println("FireSupply Active!");
+
         vanish();
     }
+
 
 
 }

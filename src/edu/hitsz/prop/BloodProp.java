@@ -10,8 +10,8 @@ public class BloodProp extends AbstractProp {
     }
 
     @Override
-    public void BeUsed(HeroAircraft hero) {
-        hero.add_blood(this.blood);
+    public void BeUsed() {
+        HeroAircraft.GetHeroAircraft().add_blood(this.blood);
         vanish();
     }
 

@@ -6,7 +6,6 @@ import edu.hitsz.MainMenu;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.nio.channels.SelectionKey;
 //实验5之前不用改
 /**
  * 程序入口
@@ -33,15 +32,11 @@ public class Main {
         frame.setBounds(((int) screenSize.getWidth() - WINDOW_WIDTH) / 2, 0,
                 WINDOW_WIDTH, WINDOW_HEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         MainMenu menu=new MainMenu();
         cardPanel.add(menu.getMainPanel());
         frame.setVisible(true);
 
-        //Game game = new Game(2);
-        //frame.add(game);
 
-
-
-        //game.action();
     }
 }

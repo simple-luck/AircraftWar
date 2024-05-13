@@ -1,8 +1,8 @@
 package edu.hitsz.prop;
 
 import edu.hitsz.aircraft.HeroAircraft;
-import edu.hitsz.basic.AbstractFlyingObject;
 import strategy.circle_shoot;
+import strategy.direct_shoot;
 
 public class BulletPlusProp extends AbstractProp {
     public BulletPlusProp(int locationX, int locationY, int speedX, int speedY) {
@@ -10,9 +10,20 @@ public class BulletPlusProp extends AbstractProp {
     }
 
     @Override
-    public void BeUsed(HeroAircraft hero) {
+    public void BeUsed() throws InterruptedException {
+        Runnable r = () -> {
+            HeroAircraft.GetHeroAircraft().setStrategy(new circle_shoot());
+            try {
+                Thread.sleep(4000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            HeroAircraft.GetHeroAircraft().setStrategy(new direct_shoot());
+        };
+        // 启动线程
+        new Thread(r, "线程2").start();
+
         System.out.println("FireSupply active!");
-        hero.setStrategy(new circle_shoot());
         vanish();
     }
 }

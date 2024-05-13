@@ -1,10 +1,11 @@
 package edu.hitsz.application;
 
+import edu.hitsz.LoopPlayer;
 import edu.hitsz.ScoreTable;
+import edu.hitsz.OncePlayer;
 import edu.hitsz.aircraft.*;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.basic.AbstractFlyingObject;
-import edu.hitsz.dao.*;
 import edu.hitsz.factory.*;
 import edu.hitsz.prop.*;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
@@ -14,9 +15,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.*;
@@ -70,18 +69,19 @@ public class Game extends JPanel {
     private int cycleDuration = 600;
     private int cycleTime = 0;
 
-
     /**
      * 游戏结束标志
      */
     private boolean gameOverFlag = false;
 
-    public Game(int mode) throws IOException {
+    private boolean hasMusic;
+    public Game(int mode,boolean hasMusic) throws IOException {
         heroAircraft = HeroAircraft.GetHeroAircraft();
         enemyAircrafts = new LinkedList<>();
         heroBullets = new LinkedList<>();
         enemyBullets = new LinkedList<>();
         Props=new LinkedList<>();
+        this.hasMusic=hasMusic;
         BufferedImage bg;
         if(mode==1){
              bg= ImageIO.read(new FileInputStream("src/images/bg.jpg"));
@@ -106,16 +106,21 @@ public class Game extends JPanel {
 
     }
 
+
     /**
      * 游戏启动入口，执行游戏逻辑
      */
     public void action() {
+        //MusicThread bgm=new MusicThread("src/videos/bgm.wav");
+        //bgm.start();
+        LoopPlayer bgm=new LoopPlayer("src/videos/bgm.wav");
+        bgm.play();
+
 
         // 定时任务：绘制、对象产生、碰撞判定、击毁及结束判定
         Runnable task = () -> {
 
             time += timeInterval;
-
 
             // 周期性执行（控制频率）
             if (timeCountAndNewCycleJudge()) {
@@ -136,6 +141,7 @@ public class Game extends JPanel {
                 {
                     if(enemy instanceof BossEnemy){
                         flag=true;
+
                     }
                 }
                 if(flag==false&score_div>=100){
@@ -146,6 +152,7 @@ public class Game extends JPanel {
                 shootAction();
             }
 
+
             // 子弹移动
             bulletsMoveAction();
 
@@ -153,7 +160,11 @@ public class Game extends JPanel {
             aircraftsMoveAction();
 
             // 撞击检测
-            crashCheckAction();
+            try {
+                crashCheckAction();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
 
             // 后处理
             postProcessAction();
@@ -164,24 +175,116 @@ public class Game extends JPanel {
             // 游戏结束检查英雄机是否存活
             if (heroAircraft.getHp() <= 0) {
                 // 游戏结束
-                executorService.shutdown();
-                gameOverFlag = true;
+
+                OncePlayer game_over = new OncePlayer("src/videos/game_over.wav");
+                game_over.start();
 
                 System.out.println("Game Over!");
+                gameOverFlag = true;
+                executorService.shutdown();
+                ScoreTable scoreTable = new ScoreTable();
+                scoreTable.setScore(score);
+                Main.cardPanel.add(scoreTable.getMainPanel());
+                Main.cardLayout.last(Main.cardPanel);
 
+            }
+            //游戏结束停止音乐
+            if(isGameOverFlag()){
+
+                bgm.over();
+
+                for (AbstractAircraft enemyAircraft : enemyAircrafts) {
+                    if(enemyAircraft instanceof BossEnemy){
+                        ((BossEnemy) enemyAircraft).getBoss_music().over();
+                    }
+                }
+            }
+        };
+
+
+        /**
+         * 以固定延迟时间进行执行
+         * 本次任务执行完成后，需要延迟设定的延迟时间，才会执行新的任务
+         */
+        executorService.scheduleWithFixedDelay(task, timeInterval, timeInterval, TimeUnit.MILLISECONDS);
+
+    }
+
+
+
+
+    public void action_no_music() {
+
+        // 定时任务：绘制、对象产生、碰撞判定、击毁及结束判定
+        Runnable task = () -> {
+
+            time += timeInterval;
+
+            // 周期性执行（控制频率）
+            if (timeCountAndNewCycleJudge()) {
+                System.out.println(time);
+                // 新敌机产生
+
+                if (enemyAircrafts.size() < enemyMaxNumber) {
+                    double r=Math.random();
+                    if(r<=0.8){
+                        enemyAircrafts.add(new MobEnemy_factory().createEnemy());}
+                    else if(r<=0.9){
+                        enemyAircrafts.add(new EliteEnemy_factory().createEnemy());}
+                    else {
+                        enemyAircrafts.add(new ElitePlusEnemy_factory().createEnemy());}
+                }
+                boolean flag=false;
+                for(AbstractAircraft enemy:enemyAircrafts)
+                {
+                    if(enemy instanceof BossEnemy){
+                        flag=true;
+
+                    }
+                }
+                if(flag==false&score_div>=100){
+                    enemyAircrafts.add(new BossEnemy_factory().createEnemy());
+                    score_div=0;
+                }
+                // 飞机射出子弹
+                shootAction();
+            }
+
+
+            // 子弹移动
+            bulletsMoveAction();
+
+            // 飞机移动
+            aircraftsMoveAction();
+
+            // 撞击检测
+            try {
+                crashCheckAction();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            // 后处理
+            postProcessAction();
+
+            //每个时刻重绘界面
+            repaint();
+
+            // 游戏结束检查英雄机是否存活
+            if (heroAircraft.getHp() <= 0) {
+                // 游戏结束
+
+                System.out.println("Game Over!");
+                gameOverFlag = true;
+                executorService.shutdown();
                 ScoreTable scoreTable=new ScoreTable();
                 scoreTable.setScore(score);
                 Main.cardPanel.add(scoreTable.getMainPanel());
                 Main.cardLayout.last(Main.cardPanel);
 
-
-
-
-                // 打印得分排行榜
-                //ScoreRankingPrinter.printScoreRanking(scoreRanking);
             }
-
         };
+
 
         /**
          * 以固定延迟时间进行执行
@@ -239,7 +342,7 @@ public class Game extends JPanel {
      * 2. 英雄攻击/撞击敌机
      * 3. 英雄获得补给
      */
-    private void crashCheckAction() {
+    private void crashCheckAction() throws InterruptedException {
         // TODO 敌机子弹攻击英雄
         for (BaseBullet bullet : enemyBullets) {
             if (bullet.notValid()) {
@@ -264,6 +367,8 @@ public class Game extends JPanel {
                 if (enemyAircraft.crash(bullet)) {
                     // 敌机撞击到英雄机子弹
                     // 敌机损失一定生命值
+
+
                     enemyAircraft.decreaseHp(bullet.getPower());
                     bullet.vanish();
                     if (enemyAircraft.notValid()) {
@@ -285,6 +390,7 @@ public class Game extends JPanel {
                             }
                         }
                         if(enemyAircraft instanceof BossEnemy){
+                            ((BossEnemy) enemyAircraft).getBoss_music().over();
                             double j= Math.random();
                             Random random = new Random();
                             for(int i=0;i<random.nextInt(4);i++){
@@ -300,6 +406,7 @@ public class Game extends JPanel {
                                     Props.add(new BulletPlusProp_Factory().createProp(enemyAircraft.getLocationX()+i*50,enemyAircraft.getLocationY()+i*50,0,3));
                                 }
                             }
+
                         }
                         score += 10;
                         score_div+=10;
@@ -319,7 +426,11 @@ public class Game extends JPanel {
                 continue;
             }
             if (prop.crash(heroAircraft)){
-                prop.BeUsed(heroAircraft);
+                prop.BeUsed();
+                if(hasMusic){
+                    OncePlayer get_supply=new OncePlayer("src/videos/get_supply.wav");
+                    get_supply.start();
+                }
             }
             else{
                 prop.forward();

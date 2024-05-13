@@ -1,6 +1,6 @@
 package edu.hitsz.prop;
 
-import edu.hitsz.aircraft.HeroAircraft;
+import edu.hitsz.OncePlayer;
 
 public class BombProp extends AbstractProp {
 
@@ -9,8 +9,10 @@ public class BombProp extends AbstractProp {
     }
 
     @Override
-    public void BeUsed(HeroAircraft hero) {
+    public void BeUsed() throws InterruptedException {
         System.out.println("BombSupply active");
+        OncePlayer bomb_music=new OncePlayer("src/videos/bomb_explosion.wav");
+        bomb_music.start();
         vanish();
     }
 

@@ -27,6 +27,7 @@ public class ScoreRankingPrinter{
             PlayerData playerData = scoreRanking.get(i);
             System.out.println("第"+(i + 1) +"名"+" " + playerData.getUsername() + "," + playerData.getScore()+","+playerData.getDate());
         }
+
     }
 
 

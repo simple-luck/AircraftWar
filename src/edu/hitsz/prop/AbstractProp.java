@@ -5,6 +5,7 @@ import edu.hitsz.basic.AbstractFlyingObject;
 
 
 public abstract class AbstractProp extends AbstractFlyingObject {
+
     public AbstractProp(int locationX, int locationY, int speedX, int speedY) {
         super(locationX, locationY, speedX, speedY);
     }
@@ -26,7 +27,7 @@ public abstract class AbstractProp extends AbstractFlyingObject {
                 && y - ( fHeight/fFactor+this.getHeight()/factor )/2 < locationY;
     }
 
-    public abstract void BeUsed(HeroAircraft hero);
+    public abstract void BeUsed() throws InterruptedException;
 
     @Override
     public void forward() {
