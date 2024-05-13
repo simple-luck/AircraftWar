@@ -23,10 +23,7 @@ public class ScoreTable {
     private JScrollPane tabelScrollPanel;
     private JButton deleteButton;
     private JPanel bottomPanel;
-    private JPanel topPanel;
     private JLabel headerLabel;
-    private JPanel Panel1;
-    private JPanel Panel2;
     private int score;
 
 
