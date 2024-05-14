@@ -6,6 +6,15 @@ import edu.hitsz.application.ImageManager;
 import edu.hitsz.application.Main;
 
 public class BossEnemy_factory implements EnemyFactory {
+
+
+
+    private boolean hasMusic;
+
+    public void setHasMusic(boolean hasMusic) {
+        this.hasMusic = hasMusic;
+    }
+
     @Override
     public AbstractAircraft createEnemy() {
         return new BossEnemy(
@@ -13,7 +22,8 @@ public class BossEnemy_factory implements EnemyFactory {
                 (int) (Math.random() * Main.WINDOW_HEIGHT * 0.05),
                 1,
                 0,
-                360
+                360,
+                hasMusic
         );
     }
 }

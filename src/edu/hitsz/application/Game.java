@@ -75,13 +75,19 @@ public class Game extends JPanel {
     private boolean gameOverFlag = false;
 
     private boolean hasMusic;
-    public Game(int mode,boolean hasMusic) throws IOException {
+
+    private int mode;
+
+
+
+    public Game(int mode, boolean hasMusic) throws IOException {
         heroAircraft = HeroAircraft.GetHeroAircraft();
         enemyAircrafts = new LinkedList<>();
         heroBullets = new LinkedList<>();
         enemyBullets = new LinkedList<>();
         Props=new LinkedList<>();
         this.hasMusic=hasMusic;
+        this.mode=mode;
         BufferedImage bg;
         if(mode==1){
              bg= ImageIO.read(new FileInputStream("src/images/bg.jpg"));
@@ -105,6 +111,7 @@ public class Game extends JPanel {
         new HeroController(this, heroAircraft);
 
     }
+
 
 
     /**
@@ -145,7 +152,10 @@ public class Game extends JPanel {
                     }
                 }
                 if(flag==false&score_div>=100){
-                    enemyAircrafts.add(new BossEnemy_factory().createEnemy());
+
+                    BossEnemy_factory boss_factory=new BossEnemy_factory();
+                    boss_factory.setHasMusic(hasMusic);
+                    enemyAircrafts.add(boss_factory.createEnemy());
                     score_div=0;
                 }
                 // 飞机射出子弹
@@ -178,26 +188,25 @@ public class Game extends JPanel {
 
                 OncePlayer game_over = new OncePlayer("src/videos/game_over.wav");
                 game_over.start();
-
                 System.out.println("Game Over!");
                 gameOverFlag = true;
                 executorService.shutdown();
-                ScoreTable scoreTable = new ScoreTable();
+                ScoreTable scoreTable = new ScoreTable(mode);
                 scoreTable.setScore(score);
                 Main.cardPanel.add(scoreTable.getMainPanel());
                 Main.cardLayout.last(Main.cardPanel);
-
             }
             //游戏结束停止音乐
             if(isGameOverFlag()){
 
                 bgm.over();
-
-                for (AbstractAircraft enemyAircraft : enemyAircrafts) {
-                    if(enemyAircraft instanceof BossEnemy){
-                        ((BossEnemy) enemyAircraft).getBoss_music().over();
+                for(AbstractAircraft enemy:enemyAircrafts)
+                {
+                    if(enemy instanceof BossEnemy){
+                        ((BossEnemy) enemy).getBoss_music().over();
                     }
                 }
+
             }
         };
 
@@ -239,7 +248,6 @@ public class Game extends JPanel {
                 {
                     if(enemy instanceof BossEnemy){
                         flag=true;
-
                     }
                 }
                 if(flag==false&score_div>=100){
@@ -273,11 +281,10 @@ public class Game extends JPanel {
             // 游戏结束检查英雄机是否存活
             if (heroAircraft.getHp() <= 0) {
                 // 游戏结束
-
                 System.out.println("Game Over!");
                 gameOverFlag = true;
                 executorService.shutdown();
-                ScoreTable scoreTable=new ScoreTable();
+                ScoreTable scoreTable=new ScoreTable(mode);
                 scoreTable.setScore(score);
                 Main.cardPanel.add(scoreTable.getMainPanel());
                 Main.cardLayout.last(Main.cardPanel);
@@ -430,6 +437,10 @@ public class Game extends JPanel {
                 if(hasMusic){
                     OncePlayer get_supply=new OncePlayer("src/videos/get_supply.wav");
                     get_supply.start();
+                    if(prop instanceof BombProp){
+                        OncePlayer bomb_music=new OncePlayer("src/videos/bomb_explosion.wav");
+                        bomb_music.start();
+                    }
                 }
             }
             else{

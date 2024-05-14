@@ -1,16 +1,13 @@
 package edu.hitsz;
 
-import edu.hitsz.application.Main;
 import edu.hitsz.dao.Daoiml;
 import edu.hitsz.dao.PlayerData;
 import edu.hitsz.dao.ScoreRankingPrinter;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 import java.awt.event.*;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -23,11 +20,16 @@ public class ScoreTable {
     private JScrollPane tabelScrollPanel;
     private JButton deleteButton;
     private JPanel bottomPanel;
+    private JLabel choose;
+    private JLabel mymode;
     private JLabel headerLabel;
     private int score;
 
+    private String file;
 
-    public ScoreTable() {
+
+
+    public ScoreTable(int mode) {
 
         model = new DefaultTableModel();
         JTable table = new JTable(model);
@@ -36,10 +38,23 @@ public class ScoreTable {
         model.addColumn("分数");
         model.addColumn("时间");
 
+        if(mode==1){
+          mymode.setText("简单");
+          file="easy.txt";
+        }
+        if(mode==2){
+            mymode.setText("中等");
+            file="medium.txt";
+        }
+        if(mode==3){
+            mymode.setText("困难");
+            file="hard.txt";
+        }
         loadData();
         //JTable并不存储自己的数据，而是从表格模型那里获取它的数据
         scoreTable.setModel(model);
         tabelScrollPanel.setViewportView(scoreTable);
+
 
 
         deleteButton.addActionListener(new ActionListener() {
@@ -65,7 +80,7 @@ public class ScoreTable {
                     String playerName = JOptionPane.showInputDialog("请输入名字以保存本轮数据");
                     if (playerName != null && !playerName.isEmpty()) {
                         Daoiml dao = new Daoiml();
-                        dao.setFile("game.txt");
+                        dao.setFile(file);
                         // 创建SimpleDateFormat对象，指定日期时间格式
                         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         // 使用format方法将Date对象转换为字符串
@@ -86,11 +101,15 @@ public class ScoreTable {
         return mainPanel;
     }
 
+
+
+
+
     private void loadData() {
         model.setRowCount(0); // 清空表格
         String[] columnName = {"名次", "玩家名", "得分", "时间"};
         Daoiml dao = new Daoiml();
-        dao.setFile("game.txt");
+        dao.setFile(file);
         List<PlayerData> scoreRanking = ScoreRankingPrinter.generateScoreRanking(dao);
         int rows = scoreRanking.size();
         //String[][] tableData = new String[rows][4];
