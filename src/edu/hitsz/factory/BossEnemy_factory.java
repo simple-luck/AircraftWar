@@ -17,13 +17,13 @@ public class BossEnemy_factory implements EnemyFactory {
     }
 
     @Override
-    public AbstractEnemy createEnemy() {
+    public AbstractEnemy createEnemy(int mode) {
         return new BossEnemy(
                 (int) (Math.random() * (Main.WINDOW_WIDTH - ImageManager.Boss_ENEMY_IMAGE.getWidth())),
                 (int) (Math.random() * Main.WINDOW_HEIGHT * 0.05),
                 1,
                 0,
-                360,
+                240+120*mode,
                 hasMusic
         );
     }

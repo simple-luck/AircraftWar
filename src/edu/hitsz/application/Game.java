@@ -136,28 +136,32 @@ public class Game extends JPanel {
                 System.out.println(time);
                 // 新敌机产生
 
-                if (enemyAircrafts.size() < enemyMaxNumber) {
+                if (enemyAircrafts.size() < enemyMaxNumber+mode) {
                     double r=Math.random();
-                    if(r<=0.8){
-                        enemyAircrafts.add(new MobEnemy_factory().createEnemy());}
-                    else if(r<=0.9){
-                        enemyAircrafts.add(new EliteEnemy_factory().createEnemy());}
+                    if(r<=1-0.2*mode){
+                        enemyAircrafts.add(new MobEnemy_factory().createEnemy(mode));}
+                    else if(r<=1-0.1*mode){
+                        enemyAircrafts.add(new EliteEnemy_factory().createEnemy(mode));}
                     else {
-                        enemyAircrafts.add(new ElitePlusEnemy_factory().createEnemy());}
+                        enemyAircrafts.add(new ElitePlusEnemy_factory().createEnemy(mode));}
                 }
-                boolean flag=false;
-                for(AbstractAircraft enemy:enemyAircrafts)
-                {
-                    if(enemy instanceof BossEnemy){
-                        flag=true;
+                if(mode!=1){
+                    boolean flag=false;
+                    for(AbstractAircraft enemy:enemyAircrafts)
+                    {
+                        if(enemy instanceof BossEnemy){
+                            flag=true;
+                        }
                     }
-                }
-                if(flag==false&score_div>=100){
+                    if(flag==false&score_div>=100){
 
-                    BossEnemy_factory boss_factory=new BossEnemy_factory();
-                    boss_factory.setHasMusic(hasMusic);
-                    enemyAircrafts.add(boss_factory.createEnemy());
-                    score_div=0;
+                        BossEnemy_factory boss_factory=new BossEnemy_factory();
+                        boss_factory.setHasMusic(hasMusic);
+                        enemyAircrafts.add(boss_factory.createEnemy(mode));
+                        //System.out.println("boss血量："+boss_factory.createEnemy(mode).getMaxHp());
+                        BossEnemy.count+=1;
+                        score_div=0;
+                    }
                 }
                 // 飞机射出子弹
                 shootAction();
@@ -237,24 +241,32 @@ public class Game extends JPanel {
 
                 if (enemyAircrafts.size() < enemyMaxNumber) {
                     double r=Math.random();
-                    if(r<=0.8){
-                        enemyAircrafts.add(new MobEnemy_factory().createEnemy());}
-                    else if(r<=0.9){
-                        enemyAircrafts.add(new EliteEnemy_factory().createEnemy());}
+                    if(r<=1-0.2*mode){
+                        enemyAircrafts.add(new MobEnemy_factory().createEnemy(mode));}
+                    else if(r<=1-0.1*mode){
+                        enemyAircrafts.add(new EliteEnemy_factory().createEnemy(mode));}
                     else {
-                        enemyAircrafts.add(new ElitePlusEnemy_factory().createEnemy());}
+                        enemyAircrafts.add(new ElitePlusEnemy_factory().createEnemy(mode));}
                 }
-                boolean flag=false;
-                for(AbstractAircraft enemy:enemyAircrafts)
-                {
-                    if(enemy instanceof BossEnemy){
-                        flag=true;
+                if(mode!=1){
+                    boolean flag=false;
+                    for(AbstractAircraft enemy:enemyAircrafts)
+                    {
+                        if(enemy instanceof BossEnemy){
+                            flag=true;
+                        }
+                    }
+                    if(flag==false&score_div>=100){
+
+                        BossEnemy_factory boss_factory=new BossEnemy_factory();
+                        boss_factory.setHasMusic(hasMusic);
+                        enemyAircrafts.add(boss_factory.createEnemy(mode));
+                        //System.out.println("boss血量："+boss_factory.createEnemy(mode).getMaxHp());
+                        BossEnemy.count+=1;
+                        score_div=0;
                     }
                 }
-                if(flag==false&score_div>=100){
-                    enemyAircrafts.add(new BossEnemy_factory().createEnemy());
-                    score_div=0;
-                }
+
                 // 飞机射出子弹
                 shootAction();
             }

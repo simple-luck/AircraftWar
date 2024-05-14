@@ -10,8 +10,8 @@ public class BossEnemy extends AbstractEnemy {
     /**
      * 子弹射击方向 (向上发射：-1，向下发射：1)
      */
-
-
+    public static int count=0;
+    private int maxHp=360+10*count;
     private LoopPlayer boss_music=new LoopPlayer("src/videos/bgm_boss.wav");
 
 
@@ -31,5 +31,9 @@ public class BossEnemy extends AbstractEnemy {
 
     @Override
     public void update() {
+    }
+
+    public int getMaxHp() {
+        return maxHp;
     }
 }
