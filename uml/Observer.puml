@@ -1,0 +1,38 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+class BombProp{
+    - ObserverList:List<AbstractEnemy>
+    + BombProp(int locationX, int locationY, int speedX, int speedY)
+    + addEnemy(List<AbstractEnemy> enemyList):void
+    + addBullet(List<AbstractEnemy> enemyBullets):void
+    + notifyAll():void
+    + BeUsed():void
+}
+
+
+abstract class AbstractEnemy{
+    + update():void
+
+}
+
+class MobEnemy{
+    + update():void
+}
+
+class EliteEnemy{
+    + update():void
+}
+
+class ElitePlusEnemy{
+    + update():void
+}
+class BossEnemy{
+    + update():void
+}
+MobEnemy<|--AbstractEnemy
+EliteEnemy<|--AbstractEnemy
+ElitePlusEnemy<|--AbstractEnemy
+BossEnemy<|--AbstractEnemy
+BombProp o--> AbstractEnemy
+@enduml

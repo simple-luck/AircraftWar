@@ -6,6 +6,7 @@ import edu.hitsz.OncePlayer;
 import edu.hitsz.aircraft.*;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.basic.AbstractFlyingObject;
+import edu.hitsz.bullet.EnemyBullet;
 import edu.hitsz.factory.*;
 import edu.hitsz.prop.*;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
@@ -25,6 +26,7 @@ import java.util.Random;
  *
  * @author hitsz
  */
+
 public class Game extends JPanel {
 
     private int backGroundTop = 0;
@@ -40,7 +42,7 @@ public class Game extends JPanel {
     private int timeInterval = 40;
 
     private final HeroAircraft heroAircraft;
-    private final List<AbstractAircraft> enemyAircrafts;
+    private final List<AbstractEnemy> enemyAircrafts;
     private final List<BaseBullet> heroBullets;
     private final List<BaseBullet> enemyBullets;
     private final List<AbstractProp> Props;
@@ -148,7 +150,6 @@ public class Game extends JPanel {
                 {
                     if(enemy instanceof BossEnemy){
                         flag=true;
-
                     }
                 }
                 if(flag==false&score_div>=100){
@@ -433,6 +434,11 @@ public class Game extends JPanel {
                 continue;
             }
             if (prop.crash(heroAircraft)){
+                if(prop instanceof BombProp){
+                    ((BombProp) prop).addBullets(enemyBullets);
+                    ((BombProp) prop).addEnemy(enemyAircrafts);
+                    score+=enemyAircrafts.size()*10;
+                }
                 prop.BeUsed();
                 if(hasMusic){
                     OncePlayer get_supply=new OncePlayer("src/videos/get_supply.wav");

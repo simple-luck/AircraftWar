@@ -4,7 +4,7 @@ import edu.hitsz.LoopPlayer;
 import edu.hitsz.OncePlayer;
 import strategy.circle_shoot;
 
-public class BossEnemy extends AbstractAircraft {
+public class BossEnemy extends AbstractEnemy {
 
 
     /**
@@ -27,5 +27,9 @@ public class BossEnemy extends AbstractAircraft {
 
     public LoopPlayer getBoss_music() {
         return boss_music;
+    }
+
+    @Override
+    public void update() {
     }
 }
