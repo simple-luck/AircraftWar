@@ -16,6 +16,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
@@ -27,58 +28,57 @@ import java.util.Random;
  * @author hitsz
  */
 
-public class Game extends JPanel {
+public  class Game extends JPanel {
 
-    private int backGroundTop = 0;
+    protected int backGroundTop = 0;
 
     /**
      * Scheduled 线程池，用于任务调度
      */
-    private final ScheduledExecutorService executorService;
+    protected final ScheduledExecutorService executorService;
 
     /**
      * 时间间隔(ms)，控制刷新频率
      */
-    private int timeInterval = 40;
+    protected int timeInterval = 40;
 
-    private final HeroAircraft heroAircraft;
-    private final List<AbstractEnemy> enemyAircrafts;
-    private final List<BaseBullet> heroBullets;
-    private final List<BaseBullet> enemyBullets;
-    private final List<AbstractProp> Props;
+    protected final HeroAircraft heroAircraft;
+    protected final List<AbstractEnemy> enemyAircrafts;
+    protected final List<BaseBullet> heroBullets;
+    protected final List<BaseBullet> enemyBullets;
+    protected final List<AbstractProp> Props;
 
 
     /**
      * 屏幕中出现的敌机最大数量
      */
-    private int enemyMaxNumber = 5;
+    protected int enemyMaxNumber = 5;
 
 
     /**
      * 当前得分
      */
-    private int score = 0;
-    private int score_div=0;
+    protected  int score = 0;
+    protected int score_div=0;
     /**
      * 当前时刻
      */
-    private int time = 0;
+    protected int time = 0;
 
     /**
      * 周期（ms)
      * 指示子弹的发射、敌机的产生频率
      */
-    private int cycleDuration = 600;
-    private int cycleTime = 0;
+    protected int cycleDuration = 600;
+    protected int cycleTime = 0;
 
     /**
      * 游戏结束标志
      */
-    private boolean gameOverFlag = false;
+    protected boolean gameOverFlag = false;
 
-    private boolean hasMusic;
+    protected boolean hasMusic;
 
-    private int mode;
 
 
 
@@ -89,18 +89,6 @@ public class Game extends JPanel {
         enemyBullets = new LinkedList<>();
         Props=new LinkedList<>();
         this.hasMusic=hasMusic;
-        this.mode=mode;
-        BufferedImage bg;
-        if(mode==1){
-             bg= ImageIO.read(new FileInputStream("src/images/bg.jpg"));
-        }
-        else if(mode==2){
-             bg= ImageIO.read(new FileInputStream("src/images/bg2.jpg"));
-        }
-        else {
-             bg= ImageIO.read(new FileInputStream("src/images/bg3.jpg"));
-        }
-        ImageManager.setBackgroundImage(bg);
         /**
          * Scheduled 线程池，用于定时任务调度
          * 关于alibaba code guide：可命名的 ThreadFactory 一般需要第三方包
@@ -115,11 +103,17 @@ public class Game extends JPanel {
     }
 
 
-
+    public void setBg() throws IOException {
+        BufferedImage bg;
+        bg= ImageIO.read(new FileInputStream("src/images/bg.jpg"));
+        ImageManager.setBackgroundImage(bg);
+    }
     /**
      * 游戏启动入口，执行游戏逻辑
      */
-    public void action() {
+    public final void action() throws IOException {
+
+        setBg();
         //MusicThread bgm=new MusicThread("src/videos/bgm.wav");
         //bgm.start();
         LoopPlayer bgm=new LoopPlayer("src/videos/bgm.wav");
@@ -135,34 +129,8 @@ public class Game extends JPanel {
             if (timeCountAndNewCycleJudge()) {
                 System.out.println(time);
                 // 新敌机产生
+                ProductEnemy();
 
-                if (enemyAircrafts.size() < enemyMaxNumber+mode) {
-                    double r=Math.random();
-                    if(r<=1-0.2*mode){
-                        enemyAircrafts.add(new MobEnemy_factory().createEnemy(mode));}
-                    else if(r<=1-0.1*mode){
-                        enemyAircrafts.add(new EliteEnemy_factory().createEnemy(mode));}
-                    else {
-                        enemyAircrafts.add(new ElitePlusEnemy_factory().createEnemy(mode));}
-                }
-                if(mode!=1){
-                    boolean flag=false;
-                    for(AbstractAircraft enemy:enemyAircrafts)
-                    {
-                        if(enemy instanceof BossEnemy){
-                            flag=true;
-                        }
-                    }
-                    if(flag==false&score_div>=100){
-
-                        BossEnemy_factory boss_factory=new BossEnemy_factory();
-                        boss_factory.setHasMusic(hasMusic);
-                        enemyAircrafts.add(boss_factory.createEnemy(mode));
-                        //System.out.println("boss血量："+boss_factory.createEnemy(mode).getMaxHp());
-                        BossEnemy.count+=1;
-                        score_div=0;
-                    }
-                }
                 // 飞机射出子弹
                 shootAction();
             }
@@ -196,10 +164,7 @@ public class Game extends JPanel {
                 System.out.println("Game Over!");
                 gameOverFlag = true;
                 executorService.shutdown();
-                ScoreTable scoreTable = new ScoreTable(mode);
-                scoreTable.setScore(score);
-                Main.cardPanel.add(scoreTable.getMainPanel());
-                Main.cardLayout.last(Main.cardPanel);
+                setTable();
             }
             //游戏结束停止音乐
             if(isGameOverFlag()){
@@ -223,12 +188,16 @@ public class Game extends JPanel {
         executorService.scheduleWithFixedDelay(task, timeInterval, timeInterval, TimeUnit.MILLISECONDS);
 
     }
+    public void setTable(){
+    }
 
+    public void ProductEnemy(){
 
+    }
 
+    public final void action_no_music() throws IOException {
 
-    public void action_no_music() {
-
+        setBg();
         // 定时任务：绘制、对象产生、碰撞判定、击毁及结束判定
         Runnable task = () -> {
 
@@ -239,33 +208,7 @@ public class Game extends JPanel {
                 System.out.println(time);
                 // 新敌机产生
 
-                if (enemyAircrafts.size() < enemyMaxNumber) {
-                    double r=Math.random();
-                    if(r<=1-0.2*mode){
-                        enemyAircrafts.add(new MobEnemy_factory().createEnemy(mode));}
-                    else if(r<=1-0.1*mode){
-                        enemyAircrafts.add(new EliteEnemy_factory().createEnemy(mode));}
-                    else {
-                        enemyAircrafts.add(new ElitePlusEnemy_factory().createEnemy(mode));}
-                }
-                if(mode!=1){
-                    boolean flag=false;
-                    for(AbstractAircraft enemy:enemyAircrafts)
-                    {
-                        if(enemy instanceof BossEnemy){
-                            flag=true;
-                        }
-                    }
-                    if(flag==false&score_div>=100){
-
-                        BossEnemy_factory boss_factory=new BossEnemy_factory();
-                        boss_factory.setHasMusic(hasMusic);
-                        enemyAircrafts.add(boss_factory.createEnemy(mode));
-                        //System.out.println("boss血量："+boss_factory.createEnemy(mode).getMaxHp());
-                        BossEnemy.count+=1;
-                        score_div=0;
-                    }
-                }
+                ProductEnemy();
 
                 // 飞机射出子弹
                 shootAction();
@@ -297,14 +240,9 @@ public class Game extends JPanel {
                 System.out.println("Game Over!");
                 gameOverFlag = true;
                 executorService.shutdown();
-                ScoreTable scoreTable=new ScoreTable(mode);
-                scoreTable.setScore(score);
-                Main.cardPanel.add(scoreTable.getMainPanel());
-                Main.cardLayout.last(Main.cardPanel);
-
+                setTable();
             }
         };
-
 
         /**
          * 以固定延迟时间进行执行
@@ -313,6 +251,19 @@ public class Game extends JPanel {
         executorService.scheduleWithFixedDelay(task, timeInterval, timeInterval, TimeUnit.MILLISECONDS);
 
     }
+
+
+    public final void process() throws IOException {
+        setBg();
+        if(hasMusic){
+            action();
+        }
+        else{
+            action_no_music();
+        }
+    }
+
+
 
     //***********************
     //      Action 各部分

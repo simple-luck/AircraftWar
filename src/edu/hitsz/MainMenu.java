@@ -1,7 +1,6 @@
 package edu.hitsz;
 
-import edu.hitsz.application.Game;
-import edu.hitsz.application.Main;
+import edu.hitsz.application.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,7 +26,7 @@ public class MainMenu {
             @Override
             public void actionPerformed(ActionEvent e){
                 try {
-                    Game game=new Game(1,hasMusic);
+                    easyGame game=new easyGame(1,hasMusic);
                     Main.cardPanel.add(game);
                     Main.cardLayout.last(Main.cardPanel);
                     if(hasMusic==true){
@@ -48,10 +47,10 @@ public class MainMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    Game game=new Game(2,hasMusic);
+                    mediumGame game=new mediumGame(2,hasMusic);
                     Main.cardPanel.add(game);
                     Main.cardLayout.last(Main.cardPanel);
-                    if(hasMusic==true){
+                    if(hasMusic){
                         game.action();
                     }
                     else{
@@ -67,10 +66,10 @@ public class MainMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    Game game=new Game(3,hasMusic);
+                    HardGame game=new HardGame(3,hasMusic);
                     Main.cardPanel.add(game);
                     Main.cardLayout.last(Main.cardPanel);
-                    if(hasMusic=true){
+                    if(hasMusic){
                         game.action();
                     }
                     else{
