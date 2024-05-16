@@ -22,7 +22,6 @@ public class BulletPlusProp extends AbstractProp {
         };
         // 启动线程
         new Thread(r, "线程2").start();
-
         System.out.println("FireSupply active!");
         vanish();
     }

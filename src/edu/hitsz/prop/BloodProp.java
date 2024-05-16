@@ -4,7 +4,7 @@ import edu.hitsz.aircraft.HeroAircraft;
 
 
 public class BloodProp extends AbstractProp {
-    private int blood=100;
+    private int blood=200;
     public BloodProp(int locationX, int locationY, int speedX, int speedY) {
         super(locationX, locationY, speedX, speedY);
     }
@@ -15,8 +15,4 @@ public class BloodProp extends AbstractProp {
         vanish();
     }
 
-    @Override
-    public void forward() {
-        super.forward();
-    }
 }

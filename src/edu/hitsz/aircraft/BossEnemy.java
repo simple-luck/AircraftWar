@@ -27,13 +27,10 @@ public class BossEnemy extends AbstractEnemy {
 
     public LoopPlayer getBoss_music() {
         return boss_music;
+
     }
 
     @Override
     public void update() {
-    }
-
-    public int getMaxHp() {
-        return maxHp;
     }
 }

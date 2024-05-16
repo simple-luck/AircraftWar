@@ -21,10 +21,7 @@ public class BombProp extends AbstractProp {
         vanish();
     }
 
-    @Override
-    public void forward() {
-        super.forward();
-    }
+
 
     public void addEnemy(List<AbstractEnemy> enemy){
         enemyList=enemy;

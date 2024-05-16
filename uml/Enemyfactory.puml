@@ -3,50 +3,66 @@
 '敌机的工厂模式
 
 interface EnemyFactory{
-     + createEnemy():AbstractAircraft
+     + createEnemy():AbstractEnemy
 }
 
 
 class MobEnemy_factory{
-    + createEnemy():AbstractAircraft
+    + createEnemy():AbstractEnemy
 }
 
 
 class EliteEnemy_factory{
-    + createEnemy():AbstractAircraft
+    + createEnemy():AbstractEnemy
+}
+
+class ElitePlusEnemy_factory{
+    + createEnemy():AbstractEnemy
+}
+class BossEnemy_factory{
+    + createEnemy():AbstractEnemy
 }
 
 EliteEnemy_factory ..|> EnemyFactory
 MobEnemy_factory..|> EnemyFactory
 
-EnemyFactory..>AbstractAircraft
+ElitePlusEnemy_factory ..|> EnemyFactory
+BossEnemy_factory..|> EnemyFactory
 
-abstract class AbstractAircraft
-{
-	# maxHp:int
-    # hp:int
-    + AbstractAircraft(int locationX, int locationY, int speedX, int speedY, int hp)
-    + decreaseHp(int decrease):void
-    + getHp():int
-    + {abstract} shoot():List<BaseBullet>
- }
+EnemyFactory..>AbstractEnemy
+
+abstract class AbstractEnemy{
+    + AbstractEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
+    + update():void
+}
 
 
 class MobEnemy {
     + MobEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
-    + forward():void
-    + shoot():List<BaseBullet>
+    + update():void
 }
-AbstractAircraft <|-- MobEnemy
 
 class EliteEnemy{
-    - shootNum:int
-    - power:int
-    - direction:int
     + EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
-    + forward():void
-    + shoot():List<BaseBullet>
+    + update():void
 }
-AbstractAircraft <|-- EliteEnemy
+
+class ElitePlusEnemy{
+    + ElitePlusEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
+    + update():void
+}
+class BossEnemy{
+    + {static}count:int
+    - maxHp:int
+    - boss_music:LoopPlayer
+    + BossEnemy(int locationX, int locationY, int speedX, int speedY, int hp,boolean hasMusic)
+    + getBoss_music():void
+    + update():void
+}
+
+MobEnemy--|>AbstractEnemy
+EliteEnemy--|>AbstractEnemy
+ElitePlusEnemy--|>AbstractEnemy
+BossEnemy--|>AbstractEnemy
 
 @enduml

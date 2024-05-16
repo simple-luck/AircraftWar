@@ -111,7 +111,7 @@ public  class Game extends JPanel {
     /**
      * 游戏启动入口，执行游戏逻辑
      */
-    public final void action() throws IOException {
+    public  void action() throws IOException {
 
         setBg();
         //MusicThread bgm=new MusicThread("src/videos/bgm.wav");
@@ -195,7 +195,7 @@ public  class Game extends JPanel {
 
     }
 
-    public final void action_no_music() throws IOException {
+    public  void action_no_music() throws IOException {
 
         setBg();
         // 定时任务：绘制、对象产生、碰撞判定、击毁及结束判定

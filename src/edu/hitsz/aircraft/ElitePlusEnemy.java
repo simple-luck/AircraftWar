@@ -17,7 +17,7 @@ public class ElitePlusEnemy extends AbstractEnemy{
 
     @Override
     public void update() {
-        decreaseHp(10);
+        decreaseHp(20);
     }
 
 }

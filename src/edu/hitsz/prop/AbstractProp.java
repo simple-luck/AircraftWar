@@ -29,12 +29,5 @@ public abstract class AbstractProp extends AbstractFlyingObject {
 
     public abstract void BeUsed() throws InterruptedException;
 
-    @Override
-    public void forward() {
-        super.forward();
-        if (locationY >= Main.WINDOW_HEIGHT ) {
-            vanish();
-        }
-    }
 }
 

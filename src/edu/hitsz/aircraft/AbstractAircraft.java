@@ -22,7 +22,7 @@ public abstract class AbstractAircraft extends AbstractFlyingObject {
      * 子弹射击方向 (向上发射：-1，向下发射：1)
      */
     public int direction;
-    public Strategy strategy;
+    private Strategy strategy;
     public AbstractAircraft(int locationX, int locationY, int speedX, int speedY, int hp) {
         super(locationX, locationY, speedX, speedY);
         this.hp = hp;

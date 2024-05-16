@@ -1,7 +1,34 @@
 @startuml
 'https://plantuml.com/sequence-diagram
 
-abstract class BasicGame{
-    +
+ class Game{
+    + setBg():void
+    + setTable():void
+    + ProductEnemy():void
+    + action():void
+    + action_no_music():void
+    + process():void
 }
+
+class easyGame{
+    + setBg():void
+    + setTable():void
+    + ProductEnemy():void
+}
+
+class mediumGame{
+    + setBg():void
+    + setTable():void
+    + ProductEnemy():void
+}
+
+class HardGame{
+    + setBg():void
+    + setTable():void
+    + ProductEnemy():void
+}
+
+easyGame--|>Game
+mediumGame--|>Game
+HardGame--|>Game
 @enduml

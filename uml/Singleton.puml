@@ -4,6 +4,7 @@ class HeroAircraft {
     - shootNum:int
     - power:int
     - direction:int
+    + strategy:Strategy
     - HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp)
     - {static}hero:HeroAircraft
     + {static}GetHeroAircraft():HeroAircraft
