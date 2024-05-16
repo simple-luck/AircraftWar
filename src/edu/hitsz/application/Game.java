@@ -82,7 +82,7 @@ public  class Game extends JPanel {
 
 
 
-    public Game(int mode, boolean hasMusic) throws IOException {
+    public Game( boolean hasMusic) throws IOException {
         heroAircraft = HeroAircraft.GetHeroAircraft();
         enemyAircrafts = new LinkedList<>();
         heroBullets = new LinkedList<>();

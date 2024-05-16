@@ -14,8 +14,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 public class HardGame extends Game{
-    public HardGame(int mode, boolean hasMusic) throws IOException {
-        super(mode, hasMusic);
+    public HardGame( boolean hasMusic) throws IOException {
+        super(hasMusic);
     }
 
     @Override

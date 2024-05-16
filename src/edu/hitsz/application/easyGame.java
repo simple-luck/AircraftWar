@@ -16,10 +16,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 public class easyGame extends Game{
-    public easyGame(int mode, boolean hasMusic) throws IOException {
-        super(mode, hasMusic);
+    public easyGame( boolean hasMusic) throws IOException {
+        super( hasMusic);
     }
-
 
     @Override
     public void setBg() throws IOException {

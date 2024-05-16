@@ -14,8 +14,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 public class mediumGame extends Game{
-    public mediumGame(int mode, boolean hasMusic) throws IOException {
-        super(mode, hasMusic);
+    public mediumGame(boolean hasMusic) throws IOException {
+        super(hasMusic);
     }
 
     @Override

@@ -26,15 +26,10 @@ public class MainMenu {
             @Override
             public void actionPerformed(ActionEvent e){
                 try {
-                    easyGame game=new easyGame(1,hasMusic);
+                    easyGame game=new easyGame(hasMusic);
                     Main.cardPanel.add(game);
                     Main.cardLayout.last(Main.cardPanel);
-                    if(hasMusic==true){
-                        game.action();
-                    }
-                    else{
-                        game.action_no_music();
-                    }
+                    game.process();
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -47,15 +42,10 @@ public class MainMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    mediumGame game=new mediumGame(2,hasMusic);
+                    mediumGame game=new mediumGame(hasMusic);
                     Main.cardPanel.add(game);
                     Main.cardLayout.last(Main.cardPanel);
-                    if(hasMusic){
-                        game.action();
-                    }
-                    else{
-                        game.action_no_music();
-                    }
+                    game.process();
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -66,16 +56,10 @@ public class MainMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    HardGame game=new HardGame(3,hasMusic);
+                    HardGame game=new HardGame(hasMusic);
                     Main.cardPanel.add(game);
                     Main.cardLayout.last(Main.cardPanel);
-                    if(hasMusic){
-                        game.action();
-                    }
-                    else{
-                        game.action_no_music();
-                    }
-
+                    game.process();
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
